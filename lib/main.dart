@@ -11,10 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Spotify Clone',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData(fontFamily: 'Avenir'),
       routes: AppRoutes.getRoutes(),
       initialRoute: AppRoutes.splashPage,
     );
