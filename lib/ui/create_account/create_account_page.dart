@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_clone/domain/app_colors.dart';
+import 'package:spotify_clone/domain/app_routes.dart';
 import 'package:spotify_clone/domain/ui_helper.dart';
 import 'package:spotify_clone/ui/widgets/k_custom_button.dart';
 
@@ -71,24 +72,28 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        child: Column(
-          children: [
-            allPages[selectedIndex](),
-            SizedBox(height: selectedIndex < 3 ? 60 : 170, width: .infinity),
-            KCustomButton(
-              onTap: () {
-                if (selectedIndex < 3) {
-                  setState(() {
-                    selectedIndex++;
-                  });
-                } else {}
-              },
-              text: selectedIndex < 3 ? "Next" : "Create an account",
-              mWidth: selectedIndex < 3 ? 100 : 180,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Column(
+            children: [
+              allPages[selectedIndex](),
+              SizedBox(height: selectedIndex < 3 ? 60 : 170, width: .infinity),
+              KCustomButton(
+                onTap: () {
+                  if (selectedIndex < 3) {
+                    setState(() {
+                      selectedIndex++;
+                    });
+                  } else {
+                    Navigator.pushNamed(context, AppRoutes.chooseArtistPage);
+                  }
+                },
+                text: selectedIndex < 3 ? "Next" : "Create an account",
+                mWidth: selectedIndex < 3 ? 100 : 180,
+              ),
+            ],
+          ),
         ),
       ),
     );
