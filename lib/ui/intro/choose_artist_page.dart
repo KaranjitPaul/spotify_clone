@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:spotify_clone/domain/app_colors.dart';
+import 'package:spotify_clone/domain/app_routes.dart';
 import 'package:spotify_clone/domain/ui_helper.dart';
 import 'package:spotify_clone/ui/widgets/k_circular_image_bg.dart';
+import 'package:spotify_clone/ui/widgets/k_custom_button.dart';
 
-class ChooseArtistPage extends StatelessWidget {
+class ChooseArtistPage extends StatefulWidget {
   ChooseArtistPage({super.key});
+
+  @override
+  State<ChooseArtistPage> createState() => _ChooseArtistPageState();
+}
+
+class _ChooseArtistPageState extends State<ChooseArtistPage> {
+  List<int> selectedArtist = [];
+
   final List<Map<String, dynamic>> mArtist = [
     {"imgPath": "assets/images/Members.png", "name": "Members"},
     {"imgPath": "assets/images/MGK.png", "name": "MGK"},
@@ -62,20 +72,32 @@ class ChooseArtistPage extends StatelessWidget {
                         mainAxisExtent: 130,
                       ),
                       itemBuilder: (_, index) {
-                        return Column(
-                          spacing: 10,
-                          children: [
-                            KCircularImageBg(
-                              imgPath: mArtist[index]['imgPath'],
-                            ),
-                            Text(
-                              mArtist[index]['name'],
-                              style: TextStyle(
-                                color: AppColors.textWhiteColor,
-                                fontWeight: .bold,
+                        return InkWell(
+                          onTap: () {
+                            if (!selectedArtist.contains(index)) {
+                              selectedArtist.add(index);
+                              setState(() {});
+                            } else {
+                              selectedArtist.remove(index);
+                              setState(() {});
+                            }
+                          },
+                          child: Column(
+                            spacing: 10,
+                            children: [
+                              KCircularImageBg(
+                                imgPath: mArtist[index]['imgPath'],
+                                isSelected: selectedArtist.contains(index),
                               ),
-                            ),
-                          ],
+                              Text(
+                                mArtist[index]['name'],
+                                style: TextStyle(
+                                  color: AppColors.textWhiteColor,
+                                  fontWeight: .bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),
@@ -95,6 +117,20 @@ class ChooseArtistPage extends StatelessWidget {
                             ],
                           ),
                         ),
+                        child: selectedArtist.length > 2
+                            ? Center(
+                                child: KCustomButton(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      AppRoutes.choosePodcastPage,
+                                    );
+                                  },
+                                  text: "Next",
+                                  mWidth: 100,
+                                ),
+                              )
+                            : null,
                       ),
                     ),
                   ],
